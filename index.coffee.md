@@ -26,7 +26,7 @@ Indicate customer-specific problem (e.g. configuration entry).
     stamp = ->
       (new Date()).toISOString()
 
-    cuddly = (tag,url = process.env.CUDDLY_URL) ->
+    Cuddly = (tag,url = process.env.CUDDLY_URL) ->
       host = process.env.CUDDLY_HOST ? os.hostname()
       socket = null
       res = {}
@@ -42,11 +42,12 @@ Indicate customer-specific problem (e.g. configuration entry).
             socket.emit "report_#{event}", data
           .catch (error) ->
             debug "socket: #{error}"
+      res.events = events
       res
 
-    cuddly.events = events
+    Cuddly.events = events.map (event) -> "report_#{event}"
 
-    module.exports = cuddly
+    module.exports = Cuddly
 
     IO = require 'socket.io-client'
     os = require 'os'
