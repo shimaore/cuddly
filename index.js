@@ -13,6 +13,10 @@
     if (url == null) {
       url = process.env.CUDDLY_URL;
     }
+    if (url == null) {
+      debug('Missing `url` or CUDDLY_URL, not reporting.', tag);
+      return;
+    }
     host = (ref = process.env.CUDDLY_HOST) != null ? ref : os.hostname();
     socket = null;
     res = {};
