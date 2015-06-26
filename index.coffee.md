@@ -27,6 +27,9 @@ Indicate customer-specific problem (e.g. configuration entry).
       (new Date()).toISOString()
 
     Cuddly = (tag,url = process.env.CUDDLY_URL) ->
+      if not url?
+        debug 'Missing `url` or CUDDLY_URL, not reporting.', tag
+        return
       host = process.env.CUDDLY_HOST ? os.hostname()
       socket = null
       res = {}
