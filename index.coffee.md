@@ -29,12 +29,15 @@ Indicate customer-specific problem (e.g. configuration entry).
     Cuddly = (tag,url = process.env.CUDDLY_URL) ->
       if not url?
         debug 'Missing `url` or CUDDLY_URL, not reporting.', tag
-        return
       host = process.env.CUDDLY_HOST ? os.hostname()
       socket = null
       res = {}
       for event in events
         do (event) ->
+          if not url?
+            res[event] = (error,data = {}) ->
+            return
+
           res[event] = (error,data = {}) ->
             data.error = error
             data.application = tag
