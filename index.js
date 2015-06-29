@@ -15,12 +15,19 @@
     }
     if (url == null) {
       debug('Missing `url` or CUDDLY_URL, not reporting.', tag);
-      return;
     }
     host = (ref = process.env.CUDDLY_HOST) != null ? ref : os.hostname();
     socket = null;
     res = {};
     fn = function(event) {
+      if (url == null) {
+        res[event] = function(error, data) {
+          if (data == null) {
+            data = {};
+          }
+        };
+        return;
+      }
       return res[event] = function(error, data) {
         if (data == null) {
           data = {};
